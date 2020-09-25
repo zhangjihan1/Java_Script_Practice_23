@@ -1,0 +1,89 @@
+<!-- 
+下代码属于Deep Knowledge Education，其用途仅为教学展示，任何人不可复制，使用，或用于任何其他用途，违者必追究法律责任。
+The code below belongs to Deep Knowledge Education. 
+It is only for demonstration as part of education process.
+You cannot copy, use the code, nor can you use it for any other purpose.
+Offenders must be held accountable.
+Date: 17 Sep 2020
+-->
+<!-- 
+    练习说明：给jQuery库加一个插件，可以把选中的元素一直前后移动
+    练习知识点：
+            * jQuery fn
+            * jQuery animate
+            * jQuery DOM manipulation
+            * 递归
+ -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>jQuery插件练习</title>
+    <style>
+        img {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            display: block;
+        }
+
+        #u0 {
+            left: 100px;
+        }
+
+        #u1{
+            left: 300px;
+        }
+
+        #u2 {
+            left: 150px;
+        }
+
+        p{
+            width: 100px;
+            position: relative;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //（1）设定 jQuery utility 插件
+            $.forwardBackward = function (elements, moveUnit) {      
+                     
+                //(2) 给所有元素加上前移后移效果
+                for (let ele of elements) {
+                    let originalPos = parseInt($(ele).css("left"));
+                    moveAnimate(ele, originalPos, moveUnit)
+                }
+            }
+
+            //(3) 定义前后移动动画效果
+            function moveAnimate(ele, originalPos, moveUnit) {
+                $(ele).animate({left: `${originalPos + moveUnit}px`}, 1500);
+                $(ele).animate({left: `${originalPos}px`}, 1500, () => moveAnimate(ele, originalPos, moveUnit));
+            }
+
+            //(4) 运行动画
+            let imgs = $("img");
+            $.forwardBackward(imgs, 300);
+            $.forwardBackward($("p"), 900);
+        });
+
+    </script>
+</head>
+
+
+<body>
+    <h1 id="title">jQuery插件练习</h1>
+    <div>
+        <img id="u0" src="u0.png">
+        <img id="u1" src="u1.png">
+        <img id ="u2" src="u2.png">
+        <img src="u3.png">
+    </div>
+    <p>p1</p>
+    <p>p2</p>
+</body>
+
+</html>
